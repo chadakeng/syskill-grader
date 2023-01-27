@@ -11,7 +11,6 @@ grader=grader_output
 
 # declare counter variables
 line_number_input=0
-line_number_eo=0
 case_num=1
 score=0
 
@@ -69,7 +68,6 @@ while [ $(($max_test_in - $line_number_input)) -gt 0 ]; do
 
         # increment variables
         ((line_number_student=line_number_student + student_count))
-        ((line_number_eo=line_number_eo + eo_count))
         ((case_num=case_num + 1))
         
         # clear temp files
