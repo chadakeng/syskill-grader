@@ -4,6 +4,10 @@
 # if you are adding a new case to test.txt, make sure there is a blank line at the end of the text file.
 # seperate test cases with --
 
+# define test case file and expected output file
+test_case=test.txt
+grader=grader_output
+
 # declare counter variables
 line_number_input=0
 line_number_eo=0
@@ -19,9 +23,7 @@ if [ $? -eq 0 ]; then
     ((score=score+5))
 fi
 
-# define test case file and expected output file
-test_case=test.txt
-expected_output=eo.txt
+
 
 # find max line number in each given text file
 max_test_in="$( awk 'END { print NR }' $test_case )"
@@ -49,7 +51,7 @@ while [ $(($max_test_in - $line_number_input)) -gt 0 ]; do
         rm test_input_short.txt
         cat one_test_input.txt | ./vert_hist > student_out.txt
 
-        cat one_test_input.txt | ./grader_output > grader_out.txt
+        cat one_test_input.txt | ./$grader > grader_out.txt
 
         # compare student output and expected output
         if  cmp -s student_out.txt grader_out.txt; then
