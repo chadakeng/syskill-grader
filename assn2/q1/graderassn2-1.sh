@@ -3,6 +3,7 @@
 # ---- NOTES -----
 # if you are adding a new case to test.txt, make sure there is a blank line at the end of the text file.
 # seperate test cases with --
+# ----------------
 
 # define test case file and expected output file
 test_case=test.txt
@@ -22,8 +23,6 @@ gcc -Werror -o vert_hist vert_hist.c
 if [ $? -eq 0 ]; then
     ((score=score+5))
 fi
-
-
 
 # find max line number in each given text file
 max_test_in="$( awk 'END { print NR }' $test_case )"
