@@ -20,19 +20,22 @@ score=0
 gcc -Werror -o vert_hist vert_hist.c
 
 # if exit status != 0, then there is a warning/error - recompile
+echo --------------------------
 if [ $? -eq 0 ]; then
+    echo Clean compile: Passed
     ((score=score+5))
+else
+    echo Clean compile: Failed
+
 fi
+echo --------------------------
 
 # find max line number in each given text file
 max_test_in="$( awk 'END { print NR }' $test_case )"
-max_eo="$( awk 'END { print NR }' $expected_output )"
-
 
 while [ $(($max_test_in - $line_number_input)) -gt 0 ]; do
         # jump to the current line number so we dont have to go through the whole file every time
         tail -n $(($max_test_in - $line_number_input)) < $test_case > test_input_short.txt
-        tail -n $(($max_eo - $line_number_eo)) < $expected_output > temp_eo.txt
 
         input_count=0
         eo_count=0
@@ -54,10 +57,10 @@ while [ $(($max_test_in - $line_number_input)) -gt 0 ]; do
 
         # compare student output and expected output
         if  cmp -s student_out.txt grader_out.txt; then
-            echo "Case $case_num: Pass"
-            ((score=score+5))
+            echo "Case $case_num: Passed"
+            ((score=score+10))
         else
-            echo "Case $case_num: Fail"
+            echo "Case $case_num: Failed"
             echo Expected output:
             cat shortened_output.txt
             echo Student output:
@@ -71,10 +74,10 @@ while [ $(($max_test_in - $line_number_input)) -gt 0 ]; do
         
         # clear temp files
         rm student_out.txt
-        rm temp_eo.txt
         rm grader_out.txt
         rm one_test_input.txt
 
 done
-
+echo --------------------------
 echo "Score: $score/100"
+echo --------------------------
