@@ -2,6 +2,7 @@
 
 # ---- NOTES -----
 # if you are adding a new case to test.txt, make sure there is a blank line at the end of the text file.
+# seperate test cases with --
 
 # compile student's program
 gcc -o vert_hist vert_hist.c
@@ -33,7 +34,7 @@ while [ $(($max_test_in - $line_number_input)) -gt 0 ]; do
         input_count=0
         eo_count=0
         while IFS= read -r curr_test_case; do
-            if [ -z "$curr_test_case" ]
+            if [ "$curr_test_case" == "--" ]
             then
                 echo  >> one_test_input.txt
                 ((input_count=input_count + 1))
