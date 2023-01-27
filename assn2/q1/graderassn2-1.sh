@@ -4,18 +4,20 @@
 # if you are adding a new case to test.txt, make sure there is a blank line at the end of the text file.
 # seperate test cases with --
 
-# compile student's program
-gcc -o vert_hist vert_hist.c
-
-# ----- Check for clean compiles here -----
-# 5 pts?
-# -----------------------------------------
-
 # declare counter variables
 line_number_input=0
 line_number_eo=0
 case_num=1
 score=0
+
+# compile student's program
+# check for clean compile using -Werror
+gcc -Werror -o vert_hist vert_hist.c
+
+# if exit status != 0, then there is a warning/error - recompile
+if [ $? -eq 0 ]; then
+    ((score=score+5))
+fi
 
 # define test case file and expected output file
 test_case=test.txt
@@ -34,8 +36,7 @@ while [ $(($max_test_in - $line_number_input)) -gt 0 ]; do
         input_count=0
         eo_count=0
         while IFS= read -r curr_test_case; do
-            if [ "$curr_test_case" == "--" ]
-            then
+            if [ "$curr_test_case" == "--" ]; then
                 echo  >> one_test_input.txt
                 ((input_count=input_count + 1))
                 break
@@ -47,20 +48,11 @@ while [ $(($max_test_in - $line_number_input)) -gt 0 ]; do
 
         rm test_input_short.txt
         cat one_test_input.txt | ./vert_hist > student_out.txt
-        rm one_test_input.txt
 
-        while IFS= read -r line; do
-            if [ -z "$line" ]
-            then
-                ((eo_count=eo_count + 1))
-                break
-            fi
-            echo "$line" >> shortened_output.txt
-            ((eo_count=eo_count + 1))
-        done < temp_eo.txt
+        cat one_test_input.txt | ./grader_output > grader_out.txt
 
         # compare student output and expected output
-        if  cmp -s student_out.txt shortened_output.txt; then
+        if  cmp -s student_out.txt grader_out.txt; then
             echo "Case $case_num: Pass"
             ((score=score+5))
         else
@@ -79,9 +71,9 @@ while [ $(($max_test_in - $line_number_input)) -gt 0 ]; do
         # clear temp files
         rm student_out.txt
         rm temp_eo.txt
-        rm shortened_output.txt
+        rm grader_out.txt
+        rm one_test_input.txt
+
 done
 
 echo "Score: $score/100"
-
-
