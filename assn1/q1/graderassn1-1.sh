@@ -1,28 +1,36 @@
 #!/bin/bash
 
 # variables
-name=( "Low" "Medium" "High" )
-exp=0
+name=( "Low" "Medium" "Medium" "High" "High" )
+mult=1
 score=0
 
-# create files with desired sizes
-
 for i in ${name[@]}; do
-    mkdir $i
-    dd if=/dev/zero of=./$i/output.dat status=none  bs=500k  count=$((2 ** exp))
+    mkdir temp
 
-    temp=$(./quota.sh "$i")
+    # create files with desired sizes
+    dd if=/dev/zero of=./temp/output.dat status=none  bs=500k  count=$mult
 
+    temp=$(./quota.sh "temp")
+    ((size_pr=500*mult))
     if [ "$temp" == "$i" ]; then
         ((score=score+10))
-        echo $i: Passed
+        echo $i "$size_pr"kB: Passed
     else
-        echo $i: Failed
+        # check if wrong formatting before failing test for partial
+        lowered=$(echo $temp | awk '{print tolower($0)}')
+        size=$(echo $i | awk '{print tolower($0)}')
+        if [ "$lowered" == "$size" ]; then
+            echo "$i $size_pr"kB: Wrong format, right output.
+            ((score=score+5))
+        else
+            echo $i "$size_pr"kB: Failed
+        fi
     fi
-    ((exp=exp+1))
-    rm -r $i
+    ((mult=mult+1))
+    rm -r temp
 done
 
 echo --------------------------
-echo "Score: $score/30"
+echo "Score: $score/50"
 echo --------------------------
