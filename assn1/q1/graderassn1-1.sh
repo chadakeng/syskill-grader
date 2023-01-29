@@ -12,7 +12,7 @@ for i in ${name[@]}; do
     mkdir -p ./$mult/subfolder/subsubfolder
 
     # create files with desired sizes
-    dd if=/dev/zero of=./$mult/subfolder/subsubfolder/output.dat status=none  bs=500k  count=$mult
+    dd if=/dev/zero of=./$mult/subfolder/subsubfolder/output.dat status=none  bs=500K  count=$mult
 
     # run student's script
     temp=$(./quota.sh ./$mult/subfolder/subsubfolder)
