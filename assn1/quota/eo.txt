@@ -1,0 +1,7 @@
+ListOfBigDirs.txt
+125,Low
+128,Medium
+200,Medium
+500,Medium
+1000,High
+1400,High

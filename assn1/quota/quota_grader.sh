@@ -4,55 +4,63 @@
 # couldnt figure out how to calculate decimal points so leaving it as kB x)
 
 # variables
-name=( "Low" "Medium" "Medium" "High" "High" )
-mult=1
+name=()
 score=0
 
-for i in ${name[@]}; do
-    mkdir -p ./$mult/subfolder/subsubfolder
+# read file name
+read f_name < "eo.txt"
+
+# find max line number in each given text file
+max_eo="$( awk 'END { print NR }' "eo.txt" )"
+((max_eo=max_eo-1))
+tail -n$max_eo "eo.txt" >> in_out.txt
+
+
+while IFS="," read -r size result; do
+    mkdir -p ./$size/subfolder/subsubfolder
 
     # create files with desired sizes
-    dd if=/dev/zero of=./$mult/subfolder/subsubfolder/output.dat status=none  bs=500K  count=$mult
+    dd if=/dev/zero of=./$size/subfolder/subsubfolder/output.dat status=none  bs="$size"K  count=1
 
     # run student's script
-    temp=$(./quota.sh ./$mult/subfolder/subsubfolder)
-
-    ((size_pr=500*mult))
-
-    if [ "$temp" == "$i" ]; then
+    temp=$(./quota.sh ./$size/subfolder/subsubfolder)
+    
+    if [ "$temp" == "$result" ]; then
         ((score=score+10))
-        echo $i "$size_pr"kB: Passed
+        echo $result "$size"kB: Passed
     else
         # check if wrong formatting before failing test for partial credit
         lowered=$(echo $temp | awk '{print tolower($0)}')
-        size=$(echo $i | awk '{print tolower($0)}')
+        res_low=$(echo $result | awk '{print tolower($0)}')
 
-        if [ "$lowered" == "$size" ]; then
+        if [ "$lowered" == "$res_low" ]; then
             ((score=score+5))
-            echo "$i $size_pr"kB: Wrong format, right output.
+            echo "$result $size"kB: Wrong format, right output.
         else
-            echo $i "$size_pr"kB: Failed
+            echo $result "$size"kB: Failed
             echo "  ST: $temp"
-            echo "  EO: $i"
+            echo "  EO: $result"
         fi
     fi
-    rm -r ./$mult
-    ((mult=mult+1))
-done
+    rm -r ./$size
+done < in_out.txt
 
+
+# check correctness of the file created
 echo 
-if cmp -s ~/ListOfBigDirs.txt ./eo1-1.txt; then
+if cmp -s ~/$f_name ./compare.txt; then
     ((score=score+10))
-    echo ListOfBigDirs.txt: Passed
+    echo $f_name: Passed
 else
-    echo ListOfBigDirs.txt: Failed
+    echo $f_name: Failed
     echo "  ST":
-    cat ~/ListOfBigDirs.txt
+    cat ~/$f_name
     echo "  EO":
-    cat ./eo1-1.txt
+    cat ./in_out.txt
 fi
 
 echo --------------------------
 echo "Score: $score/60"
 echo --------------------------
-rm ~/ListOfBigDirs.txt
+rm ~/$f_name
+rm ./in_out.txt
