@@ -59,8 +59,9 @@ else
     cat ./compare.txt
 fi
 
-echo -----------------------------
 echo "Score: $score/$ttl_score"
+echo -----------------------------
+
 echo "$score/$ttl_score" >> ../"$uid"_scores.txt
 rm ~/$f_name
 rm ./in_out.txt

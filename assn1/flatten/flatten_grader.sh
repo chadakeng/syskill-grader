@@ -86,6 +86,7 @@ rm  ./c_files.zip
 rm -r ./c_files
 rm -r ./tester
 
-echo -----------------------------
 echo Score: $score/21
+echo -----------------------------
+
 echo "$score/21" >> ../"$uid"_scores.txt

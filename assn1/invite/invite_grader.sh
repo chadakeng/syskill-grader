@@ -58,6 +58,6 @@ while [ $(($max_eo - $line_num)) -gt 0 ]; do
         rm one_test_out.csv
 done
 
-echo -----------------------------
 echo "Score: $score/12"
+echo -----------------------------
 echo "$score/12" >> ../"$uid"_scores.txt

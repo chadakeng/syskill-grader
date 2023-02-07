@@ -20,6 +20,6 @@ else
 fi
 rm student_out.txt
 
-echo -----------------------------
 echo "Score: $score/10"
+echo -----------------------------
 echo "$score/10" >> ../"$uid"_scores.txt
