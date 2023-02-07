@@ -1,5 +1,7 @@
 #!/bin/bash
 
+uid=$1
+
 # Variables
 score=0
 
@@ -24,8 +26,8 @@ touch ./1/sub1/1.c ./2/sub2/sub22/22.c ./2/sub2/sub23/23.c ./3/sub3/sub33/sub333
 cd ..
 
 # ------ Grading -------
-echo 
-echo -------- Grading ---------
+echo --------- Flatten -----------
+
 # Check if zip file has correct name [1]
 if [ -f ./c_files.zip ]; then
     unzip -q ./c_files.zip -d ./c_files
@@ -84,6 +86,6 @@ rm  ./c_files.zip
 rm -r ./c_files
 rm -r ./tester
 
-echo --------------------------
+echo -----------------------------
 echo Score: $score/21
-echo --------------------------
+echo "$score/21" >> ../"$uid"_scores.txt

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+uid=$1
+
 # define test case file and expected output file
 test=test.csv
 expected=eo.csv
@@ -16,7 +18,7 @@ months=( "January" "February" "March" "April" "May" "June" "July" "August" "Sept
 
 # find max line number in each given text file
 max_eo="$( awk 'END { print NR }' $expected )"
-
+echo ---------- Invite -----------
 while [ $(($max_eo - $line_num)) -gt 0 ]; do
         # jump to the current line number so we dont have to go through the whole file every time
         tail -n $(($max_eo - $line_num)) < $expected > output_short.csv
@@ -56,6 +58,6 @@ while [ $(($max_eo - $line_num)) -gt 0 ]; do
         rm one_test_out.csv
 done
 
-echo --------------------------
+echo -----------------------------
 echo "Score: $score/12"
-echo --------------------------
+echo "$score/12" >> ../"$uid"_scores.txt

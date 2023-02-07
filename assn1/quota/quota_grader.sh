@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# ---- NOTES -----
-# couldnt figure out how to calculate decimal points so leaving it as kB x)
+uid=$1
+echo ---------- Quota ------------
 
 # variables
 name=()
@@ -13,8 +13,8 @@ read f_name < "eo.txt"
 # find max line number in each given text file
 max_eo="$( awk 'END { print NR }' "eo.txt" )"
 ((max_eo=max_eo-1))
+((ttl_score=10+max_eo*10))
 tail -n$max_eo "eo.txt" >> in_out.txt
-
 
 while IFS="," read -r size result; do
     mkdir -p ./$size/subfolder/subsubfolder
@@ -56,11 +56,11 @@ else
     echo "  ST":
     cat ~/$f_name
     echo "  EO":
-    cat ./in_out.txt
+    cat ./compare.txt
 fi
 
-echo --------------------------
-echo "Score: $score/60"
-echo --------------------------
+echo -----------------------------
+echo "Score: $score/$ttl_score"
+echo "$score/$ttl_score" >> ../"$uid"_scores.txt
 rm ~/$f_name
 rm ./in_out.txt
