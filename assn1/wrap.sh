@@ -47,7 +47,6 @@ while IFS="/" read -r score ttl; do
     ((index=index+1))
 done < "$uid"_scores.txt
 
-echo Weighted Score: "$weighted_score"/"$ttl_score"
 echo Weighted Score: "$weighted_score"/"$ttl_score"  >> "$uid"_report.txt
 rm -r ./student_src
 rm "$uid"_scores.txt
