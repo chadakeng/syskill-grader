@@ -7,6 +7,7 @@ zip_file=a1.zip
 unzip -d student_src ./a1.zip
 
 touch "$uid"_scores.txt
+touch "$uid"_report.txt
 # define file used to specify the questions and its points used in this assignment
 q_p=questions_points.txt
 
@@ -31,8 +32,7 @@ len=${#questions[@]}
 for ((i=0; i<len; i++)); do
     cp ./student_src/${questions[$i]}.sh ./${questions[$i]}
     cd ${questions[$i]}
-    echo
-    ./"${questions[$i]}"_grader.sh $uid
+    ./"${questions[$i]}"_grader.sh $uid >> ../"$uid"_report.txt
     rm ./${questions[$i]}.sh
     cd ..
 done
@@ -48,4 +48,6 @@ while IFS="/" read -r score ttl; do
 done < "$uid"_scores.txt
 
 echo Weighted Score: "$weighted_score"/"$ttl_score"
-echo Weighted Score: "$weighted_score"/"$ttl_score"rm -r ./student_src >> $uid_scores.txt
+echo Weighted Score: "$weighted_score"/"$ttl_score"  >> "$uid"_report.txt
+rm -r ./student_src
+rm "$uid"_scores.txt
