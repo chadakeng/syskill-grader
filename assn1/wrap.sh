@@ -14,7 +14,6 @@ q_p=questions_points.txt
 # counter variables
 score=0
 ttl_score=0
-q_count=1
 questions=()
 points=()
 
@@ -23,7 +22,6 @@ while IFS="," read -r question pts; do
     questions+=($question)
     points+=($pts)
     ((ttl_score=ttl_score+pts))
-    ((q_count=q_count+1))
 done < $q_p
 
 # find how many questions there are on the assignment
