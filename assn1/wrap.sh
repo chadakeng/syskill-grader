@@ -30,6 +30,8 @@ len=${#questions[@]}
 for ((i=0; i<len; i++)); do
     cp ./student_src/${questions[$i]}.sh ./${questions[$i]}
     cd ${questions[$i]}
+
+    # run grader of that question and store to uid_report.txt
     ./"${questions[$i]}"_grader.sh $uid >> ../"$uid"_report.txt
     rm ./${questions[$i]}.sh
     cd ..
@@ -44,6 +46,7 @@ while IFS="/" read -r score ttl; do
     weighted_score=$(echo "$weighted_score+$raw*10" | bc)
     ((index=index+1))
 done < "$uid"_scores.txt
+
 
 echo Weighted Score: "$weighted_score"/"$ttl_score"  >> "$uid"_report.txt
 rm -r ./student_src
