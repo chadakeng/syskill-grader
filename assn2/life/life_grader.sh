@@ -71,10 +71,8 @@ while [ $(($max_test_in - $line_number_input)) -gt 0 ]; do
         rm ans_board.txt
         rm test_input_short.txt
         rm test_ans_short.txt
-        rm ./life_grader
 done
-
-
+rm life_grader
 # echo "Score: $score/$ttl_score"
 # echo -----------------------------
 
