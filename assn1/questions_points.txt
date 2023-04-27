@@ -1,5 +1,0 @@
-quota,10
-flatten,10
-invite,10
-happy_countries,10
-git,10

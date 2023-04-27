@@ -1,2 +1,0 @@
-./2000/subfolder/subsubfolder
-./2400/subfolder/subsubfolder
